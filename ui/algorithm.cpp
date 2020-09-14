@@ -12,6 +12,7 @@
 #include "alg/infobjcoating.h"
 #include "alg/leaderelection.h"
 #include "alg/shapeformation.h"
+#include "alg/trianglerotate.h"
 
 Algorithm::Algorithm(QString name, QString signature)
     : _name(name),
@@ -184,6 +185,22 @@ void ShapeFormationAlg::instantiate(const int numParticles,
   }
 }
 
+TriangleRotationAlg::TriangleRotationAlg() :
+    Algorithm("Rotate a triangle", "trianglerotate") {
+    addParameter("side Length", "7");
+    addParameter("setCenter", "true");
+}
+
+void TriangleRotationAlg::instantiate(const int sideLength, const int setCenter) {
+    if (sideLength < 0) {
+       emit log("Sidelength must be > 0", true);
+    } else if (sideLength % 3 != 1) {
+       emit  log("Sidelength must form a perfect triangle with a one particle center. So 3k+1 for some k.", true);
+    } else {
+       emit setSystem(std::make_shared<TriangleRotateSystem>(sideLength, setCenter));
+    }
+}
+
 AlgorithmList::AlgorithmList() {
   // Demo algorithms.
   _algorithms.push_back(new DiscoDemoAlg());  
@@ -196,6 +213,7 @@ AlgorithmList::AlgorithmList() {
   _algorithms.push_back(new InfObjCoatingAlg());    
   _algorithms.push_back(new LeaderElectionAlg());
   _algorithms.push_back(new ShapeFormationAlg());
+  _algorithms.push_back(new TriangleRotationAlg());
 }
 
 AlgorithmList::~AlgorithmList() {

@@ -137,6 +137,17 @@ class ShapeFormationAlg : public Algorithm {
                    const QString mode = "h");
 };
 
+// Triangle Rotation.
+class TriangleRotationAlg : public Algorithm {
+    Q_OBJECT
+
+public:
+    TriangleRotationAlg();
+
+public slots:
+    void instantiate(const int sideLength = 7, const int setCenter = 1);
+};
+
 class AlgorithmList {
  public:
   // Constructs a list of algorithms recognized by the simulator (for now, this
