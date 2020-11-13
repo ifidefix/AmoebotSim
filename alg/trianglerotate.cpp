@@ -211,8 +211,10 @@ void TriangleRotateParticle::bend() {
                 }
             } else {
                 // set following status and send follow tokens along the rows.
-                state = State::Follow;
+                // first set followdir to always either be state centerfound, or followdir set,
+                // preventing early contractions by the particle that this one will be following
                 followDir = (bendToken->passedFrom + 2) % 6;
+                state = State::Follow;
                 auto IFollowYou = std::make_shared<FollowToken>();
                 IFollowYou->follow = false;
                 if (hasNbrAtLabel(followDir)) {
@@ -400,7 +402,8 @@ int TriangleRotateParticle::getLabelPointsAtMe(int label) {
 
 int TriangleRotateParticle::headMarkColor() const {
     switch(state) {
-    case State::Center: return 0x00ff00;
+    case State::Center:
+        return 0x00ff00;
     case State::Corner:
     case State::Idle:
         if (hasToken<MarkerToken>()) {
@@ -412,11 +415,11 @@ int TriangleRotateParticle::headMarkColor() const {
             } else {
                 return 0xffff00;
             }
-        } else if (possibleCenter) {
-            return 0x00ff00;
-        } else {
-            return -1;
         }
+        if (possibleCenter) {
+            return 0x00ff00;
+        }
+        return -1;
     case State::CenterFound:
         return 0x00ffff;
     case State::Finish:
@@ -544,8 +547,7 @@ TriangleRotateSystem::TriangleRotateSystem(int sideLength, bool setCenter) {
 bool TriangleRotateSystem::hasTerminated() const {
     for (auto p : particles) {
         auto hp = dynamic_cast<TriangleRotateParticle*>(p);
-        if (hp->state != TriangleRotateParticle::State::Finish &&
-                hp->state != TriangleRotateParticle::State::Center) {
+        if (hp->state != TriangleRotateParticle::State::Finish) {
             return false;
         }
     }

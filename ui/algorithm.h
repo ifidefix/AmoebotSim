@@ -137,7 +137,7 @@ class ShapeFormationAlg : public Algorithm {
                    const QString mode = "h");
 };
 
-// Triangle Rotation.
+// Triangle Rotation for 3k+1
 class TriangleRotationAlg : public Algorithm {
     Q_OBJECT
 

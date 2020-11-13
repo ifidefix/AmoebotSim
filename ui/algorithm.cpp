@@ -186,7 +186,7 @@ void ShapeFormationAlg::instantiate(const int numParticles,
 }
 
 TriangleRotationAlg::TriangleRotationAlg() :
-    Algorithm("Rotate a triangle", "trianglerotate") {
+    Algorithm("Rotate a triangle (3k+1)", "trianglerotate") {
     addParameter("side Length", "7");
     addParameter("setCenter", "true");
 }

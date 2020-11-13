@@ -39,8 +39,8 @@ Application::Application(int argc, char *argv[])
   auto algBox = qmlRoot->findChild<QObject*>("algorithmSelectBox");
   QStringList names = parameterModel->getAlgorithmList()->getAlgNames();
   algBox->setProperty("model", QVariant::fromValue(names));
-  algBox->setProperty("currentIndex", names.indexOf("Basic Shape Formation"));
-  parameterModel->updateAlgParameters("Basic Shape Formation");
+  algBox->setProperty("currentIndex", names.indexOf("Rotate a triangle (3k+1)"));
+  parameterModel->updateAlgParameters("Rotate a triangle (3k+1)");
 
   // Connect the parameter list model to the UI elements that use it.
   connect(qmlRoot, SIGNAL(algSelected(QString)),
